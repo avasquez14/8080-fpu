@@ -1,5 +1,6 @@
-const cpu = new Intel8080();
+    const cpu = new Intel8080();
 const assembler = new Assembler8080();
+const fpu = new FloatingPointCoprocessor();
 
 let runInterval = null;
 let memoryStart = 0;
@@ -189,3 +190,212 @@ document.getElementById('btn-mem-go').addEventListener('click', () => {
 
 // Initial UI update
 updateUI();
+
+// ==========================================
+// FLOATING POINT COPROCESSOR
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const fpuButton =
+        document.getElementById('btn-fpu-execute');
+
+    const fpuInputA =
+        document.getElementById('fpu-input-a');
+
+    const fpuInputB =
+        document.getElementById('fpu-input-b');
+
+    const fpuOperation =
+        document.getElementById('fpu-operation');
+
+    const fpuOpA =
+        document.getElementById('fpu-op-a');
+
+    const fpuOpB =
+        document.getElementById('fpu-op-b');
+
+    const fpuResult =
+        document.getElementById('fpu-result');
+
+    const fpuStatus =
+        document.getElementById('fpu-status');
+
+    // Elementos del flujo CPU -> FPU -> Resultado
+
+    const cpuFlow =
+        document.getElementById('cpu-flow');
+
+    const fpuFlow =
+        document.getElementById('fpu-flow');
+
+    const resultFlow =
+        document.getElementById('result-flow');
+
+    const cpuFlowStatus =
+        document.getElementById('cpu-flow-status');
+
+    const fpuFlowOperation =
+        document.getElementById('fpu-flow-operation');
+
+    const resultFlowValue =
+        document.getElementById('result-flow-value');
+
+    const arrowCpuFpu =
+        document.getElementById('arrow-cpu-fpu');
+
+    const arrowFpuResult =
+        document.getElementById('arrow-fpu-result');
+
+
+    // Estado inicial
+
+    cpuFlowStatus.textContent = "Waiting";
+    fpuFlowOperation.textContent = "Ready";
+    resultFlowValue.textContent = "---";
+
+
+    // ==========================================
+    // EJECUTAR OPERACIÓN FPU
+    // ==========================================
+
+    fpuButton.addEventListener('click', () => {
+
+        const inputA =
+            parseFloat(fpuInputA.value);
+
+        const inputB =
+            parseFloat(fpuInputB.value);
+
+        const operation =
+            fpuOperation.value;
+
+
+        // Reiniciar estados visuales
+
+        cpuFlow.classList.remove('flow-active', 'flow-error');
+        fpuFlow.classList.remove('flow-active', 'flow-error');
+        resultFlow.classList.remove('flow-active', 'flow-error');
+
+        arrowCpuFpu.classList.remove('flow-arrow-active');
+        arrowFpuResult.classList.remove('flow-arrow-active');
+
+
+        // Validar valores
+
+        if (isNaN(inputA) || isNaN(inputB)) {
+
+            fpuStatus.textContent =
+                "Error: valores inválidos";
+
+            cpuFlowStatus.textContent =
+                "Invalid input";
+
+            fpuFlowOperation.textContent =
+                "Error";
+
+            resultFlowValue.textContent =
+                "ERROR";
+
+            cpuFlow.classList.add('flow-error');
+            fpuFlow.classList.add('flow-error');
+            resultFlow.classList.add('flow-error');
+
+            return;
+        }
+
+
+        // ==========================================
+        // PASO 1 - CPU ENVÍA LA OPERACIÓN
+        // ==========================================
+
+        cpuFlowStatus.textContent =
+            "Sending operation";
+
+        cpuFlow.classList.add('flow-active');
+
+        arrowCpuFpu.classList.add('flow-arrow-active');
+
+
+        // ==========================================
+        // PASO 2 - FPU PROCESA
+        // ==========================================
+
+        const result = fpu.execute(
+            operation,
+            inputA,
+            inputB
+        );
+
+
+        fpuOpA.textContent =
+            inputA.toFixed(2);
+
+        fpuOpB.textContent =
+            inputB.toFixed(2);
+
+
+        fpuFlowOperation.textContent =
+            operation + " Processing";
+
+        fpuFlow.classList.add('flow-active');
+
+
+        // ==========================================
+        // PASO 3 - RESULTADO
+        // ==========================================
+
+        if (fpu.status === "Error") {
+
+            fpuResult.textContent =
+                "ERROR";
+
+            fpuStatus.textContent =
+                "Error: " + fpu.error;
+
+            fpuFlowOperation.textContent =
+                operation + " - ERROR";
+
+            resultFlowValue.textContent =
+                "ERROR";
+
+            cpuFlowStatus.textContent =
+                "Operation sent";
+
+            fpuFlow.classList.remove('flow-active');
+            fpuFlow.classList.add('flow-error');
+
+            resultFlow.classList.add('flow-error');
+
+            return;
+        }
+
+
+        // Operación correcta
+
+        fpuResult.textContent =
+            result.toFixed(2);
+
+        fpuStatus.textContent =
+            "Completed - " + operation;
+
+        cpuFlowStatus.textContent =
+            "Operation sent";
+
+        fpuFlowOperation.textContent =
+            operation + " Completed";
+
+        resultFlowValue.textContent =
+            result.toFixed(2);
+
+        arrowFpuResult.classList.add(
+            'flow-arrow-active'
+        );
+
+        resultFlow.classList.add(
+            'flow-active'
+        );
+
+    });
+
+});

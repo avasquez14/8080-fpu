@@ -266,3 +266,171 @@ button:disabled {
 .stack-val {
     font-weight: bold;
 }
+
+/* ==========================================
+   FLOATING POINT COPROCESSOR
+   ========================================== */
+
+#fpu-section {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+    #fpu-section h2 {
+        margin-bottom: 20px;
+    }
+
+.fpu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+    .fpu-grid .card {
+        padding: 20px;
+    }
+
+    .fpu-grid input,
+    .fpu-grid select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+#btn-fpu-execute {
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#fpu-status {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#fpu-section .reg-box {
+    margin-bottom: 12px;
+}
+
+    #fpu-section .reg-box span {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    #fpu-section .reg-box div {
+        padding: 10px;
+        font-family: monospace;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+@media (max-width: 800px) {
+
+    .fpu-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   FPU ARCHITECTURE
+   ========================================== */
+
+.fpu-architecture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.architecture-block {
+    min-width: 180px;
+    padding: 16px;
+    text-align: center;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    background: white;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+    .architecture-block strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 16px;
+    }
+
+    .architecture-block span {
+        display: block;
+        font-size: 13px;
+        color: #64748b;
+    }
+
+
+    /* ==========================================
+   ESTADO ACTIVO
+   ========================================== */
+
+    .architecture-block.flow-active {
+        border-color: #2563eb;
+        background-color: #eff6ff;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        transform: translateY(-3px);
+    }
+
+
+    /* ==========================================
+   ESTADO DE ERROR
+   ========================================== */
+
+    .architecture-block.flow-error {
+        border-color: #dc2626;
+        background-color: #fef2f2;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10);
+    }
+
+
+/* ==========================================
+   FLECHAS
+   ========================================== */
+
+.architecture-arrow {
+    font-size: 30px;
+    font-weight: bold;
+    color: #94a3b8;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+    .architecture-arrow.flow-arrow-active {
+        color: #2563eb;
+        transform: scale(1.25);
+    }
+
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 800px) {
+
+    .fpu-architecture {
+        flex-direction: column;
+    }
+
+    .architecture-arrow {
+        transform: rotate(90deg);
+    }
+
+        .architecture-arrow.flow-arrow-active {
+            transform: rotate(90deg) scale(1.25);
+        }
+}
+

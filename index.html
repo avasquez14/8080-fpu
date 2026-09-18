@@ -98,6 +98,93 @@ HLT"></textarea>
 
     <script src="cpu.js"></script>
     <script src="assembler.js"></script>
+    <script src="fpu.js"></script>
     <script src="main.js"></script>
+
+    <section id="fpu-section">
+        <h2>Floating Point Coprocessor</h2>
+
+        <div class="fpu-grid">
+
+            <div class="card">
+                <h3>FPU Registers</h3>
+
+                <div class="reg-box extended">
+                    <span>Operand A</span>
+                    <div id="fpu-op-a">0.00</div>
+                </div>
+
+                <div class="reg-box extended">
+                    <span>Operand B</span>
+                    <div id="fpu-op-b">0.00</div>
+                </div>
+
+                <div class="reg-box extended">
+                    <span>Result</span>
+                    <div id="fpu-result">0.00</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>FPU Operation</h3>
+
+                <input type="number"
+                       id="fpu-input-a"
+                       value="10.5"
+                       step="any"
+                       placeholder="Operand A">
+
+                <input type="number"
+                       id="fpu-input-b"
+                       value="2.5"
+                       step="any"
+                       placeholder="Operand B">
+
+                <select id="fpu-operation">
+                    <option value="FADD">FADD - Addition</option>
+                    <option value="FSUB">FSUB - Subtraction</option>
+                    <option value="FMUL">FMUL - Multiplication</option>
+                    <option value="FDIV">FDIV - Division</option>
+                </select>
+
+                <button id="btn-fpu-execute">
+                    Execute FPU
+                </button>
+
+                <div id="fpu-status">
+                    Ready
+                </div>
+            </div>
+
+        </div>
+
+        <div class="fpu-architecture">
+
+            <div class="architecture-block" id="cpu-flow">
+                <strong>Intel 8080 CPU</strong>
+                <span id="cpu-flow-status">Waiting</span>
+            </div>
+
+            <div class="architecture-arrow" id="arrow-cpu-fpu">
+                →
+            </div>
+
+            <div class="architecture-block" id="fpu-flow">
+                <strong>FPU</strong>
+                <span id="fpu-flow-operation">Ready</span>
+            </div>
+
+            <div class="architecture-arrow" id="arrow-fpu-result">
+                →
+            </div>
+
+            <div class="architecture-block" id="result-flow">
+                <strong>Resultado</strong>
+                <span id="result-flow-value">---</span>
+            </div>
+
+        </div>
+    </section>
+
 </body>
 </html>
